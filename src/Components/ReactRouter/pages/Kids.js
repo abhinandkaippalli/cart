@@ -9,7 +9,7 @@ function Kids() {
     })
 
     const kidsList = filterKids.map((data) =>
-        <Product data={data} />
+        <Product key={data.id} data={data} />
     )
 
     return (

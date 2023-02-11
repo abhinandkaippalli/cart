@@ -3,43 +3,59 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     products: [],
     totalPrice: 0
-}
-
+};
 
 export const cartSlice = createSlice({
-    name: 'addItem',
+    name: "cart",
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            const item = state.products.find((item) => item.id === action.payload.id)
-            if (item) {
-                state.products.quantity += action.payload.quantity
+            const newItem = action.payload;
+
+            //check item is already exits
+            const exitsItem = state.products.find((item) => item.id === newItem.id);
+
+            if (exitsItem) {
+                exitsItem.quantity++;
+                exitsItem.totalPrice += newItem.price;
             } else {
-                state.products.push(action.payload)
+                state.products.push({
+                    id: newItem.id,
+                    price: newItem.price,
+                    image: newItem.image,
+                    quantity: 1,
+                    productName: newItem.productName,
+                    category: newItem.category,
+                });
+                state.totalPrice += newItem.price;
             }
         },
         removeFromCart: (state, action) => {
-            state.products.filter((item) => item.products.id !== action.payload.id)
+            state.products = state.products.filter(
+                (item) => item.id !== action.payload.id
+            );
         },
         increment: (state, action) => {
-            state.find((item) => {
-                if (item.products.id === action.payload.id) {
-                    item.products.quantity = item.quantity + 1
+            state.products.forEach((item) => {
+                if (item.id === action.payload.id) {
+                    item.quantity = item.quantity + 1;
                 }
-            })
+            });
         },
         decrement: (state, action) => {
-            state.find((item) => {
-                if (item.products.id === action.payload.id) {
-                    item.products.quantity = item.quantity - 1
+            state.products.forEach((item) => {
+                if (item.id === action.payload.id) {
+                    item.quantity = item.quantity - 1;
                 }
-            })
+            });
         },
         sum: (state) => {
-            state.products.sum = state.products.quantity * state.quantity.price
-        }
-    }
-})
+            state.totalPrice = state.products
+                .map((item) => item.quantity * item.price)
+                .reduce((a, b) => a + b, 0);
+        },
+    },
+});
 
 export const { addToCart, removeFromCart, increment, decrement, totalPrice, sum } = cartSlice.actions
 

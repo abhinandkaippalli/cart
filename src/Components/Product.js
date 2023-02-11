@@ -8,9 +8,9 @@ function Product(props) {
             <div className="card p-2" style={{ width: 'auto', height: '500px' }}>
                 <img src={'/images/'+props.data.image} style={{ width: 'auto', height: '200px' }} className="card-img-top" alt="..." />
                 <div className="card-body">
-                    <h5 className="card-title">{props.data.productName}</h5>
-                    <p className="card-text">{props.data.price}</p>
-                    <p className="card-text">{props.data.category}</p>
+                    <h5 className="card-title" key={props.data.id}>{props.data.productName}</h5>
+                    <p className="card-text" key={props.id} >{props.data.price}</p>
+                    <p className="card-text" key={props.id} >{props.data.category}</p>
                     <div className="d-flex gap-2">
                         <select className="form-select " aria-label="Default select example" style={{ width: "65px" }}>
                             <option value="1">1</option>
