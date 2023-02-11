@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart } from '../../../features/cartSlice'
+import { addToCart, removeFromCart } from '../../../features/cartSlice'
 import list from '../../../Data'
 
 
@@ -22,9 +22,20 @@ function Electronics() {
 
     const array = useSelector(state => state.cart.products)
     console.log(array);
+
+    const [isInCart, setIsInCart] = useState([])
+
+    useEffect(() => {
+        setIsInCart(array.map(cartItem => electronics.find(electronic => electronic.id === cartItem.id) !== undefined))
+    }, [array]);
+
+    console.log(isInCart);
+
     const dispatch = useDispatch()
 
-    console.log(electronics);
+    const removeList = (electronic) => {
+        dispatch(removeFromCart({ id: electronic.id }))
+    }
 
     return (
         <div className='container mt-5'>
@@ -51,10 +62,11 @@ function Electronics() {
                                             className="btn btn-primary" onClick={() => addToCarts(electronic)}>Add to Cart
                                         </button>
                                     </div>
-                                    <div className="remove">
-                                        This item in your cart
-                                        <a href="#" className="ms-2">Remove</a>
-                                    </div>
+                                    {array.find(item => item.id === electronic.id) !== undefined ?
+                                        <div className="remove">
+                                            This item in your cart
+                                            <a href="#" className="ms-2" onClick={() => removeList(electronic)}>Remove</a>
+                                        </div> : ' '}
                                 </div>
                             </div>
                         </div>

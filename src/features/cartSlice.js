@@ -26,14 +26,20 @@ export const cartSlice = createSlice({
                     quantity: 1,
                     productName: newItem.productName,
                     category: newItem.category,
+                    totalPrice: newItem.price
                 });
-                state.totalPrice += newItem.price;
+                state.totalPrice = newItem.price;
             }
         },
         removeFromCart: (state, action) => {
-            state.products = state.products.filter(
-                (item) => item.id !== action.payload.id
-            );
+            const id = action.payload
+            const exitstingItem = state.products.find((item) => item.id === id.id)
+            if (exitstingItem) {
+                state.products = state.products.filter(
+                    (item) => item.id !== id.id
+                );
+                state.totalPrice -= exitstingItem.price;
+            }
         },
         increment: (state, action) => {
             state.products.forEach((item) => {
