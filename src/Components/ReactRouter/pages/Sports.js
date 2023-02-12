@@ -44,6 +44,7 @@ function Sports() {
                                     <h5 className="card-title">{sport.productName}</h5>
                                     <p className="card-text">{sport.price}</p>
                                     <p className="card-text">{sport.category}</p>
+                                    <p className="badge text-bg-success">Rating : {sport.rating}/5</p>
                                     <div>
                                         <button type="button"
                                             className="btn btn-primary" onClick={() => addToCarts(sport)}>Add to Cart

@@ -48,7 +48,7 @@ function ProductSelect() {
                 <div className='d-flex'>
                     <div className="border p-3">
                         <span>
-                            <img src={'/images/' + productDetails.image} className="img-fluid rounded-start" alt="..." />
+                            <img src={'/images/' + productDetails.image} className="img-fluid rounded-start" alt="..." style={{width: "500px", height:"250px"}} />
                         </span>
                     </div>
                     <span className='p-5'>

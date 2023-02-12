@@ -36,12 +36,13 @@ function Books() {
                 <div className='row'>
                     {books.map((book) => (
                         <div className='p-4 col-lg-3 col-md-4 col-sm-6 col-12' key={book.id}>
-                            <div className="card p-2" style={{ width: '100%', height:'100%' }}>
+                            <div className="card p-2" style={{ width: '100%', height: '100%' }}>
                                 <img src={'/images/' + book.image} style={{ width: '100%', height: '200px' }} className="card-img-top" alt="..." onClick={() => { navigate(`/select/${book.id}`) }} />
                                 <div className="card-body">
                                     <h5 className="card-title">{book.productName}</h5>
                                     <p className="card-text">{book.price}</p>
                                     <p className="card-text">{book.category}</p>
+                                    <p className="badge text-bg-success">Rating : {book.rating}/5</p>
                                     <div>
                                         <button type="button"
                                             className="btn btn-primary" onClick={() => addToCarts(book)}>Add to Cart

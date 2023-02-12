@@ -44,6 +44,7 @@ function Electronics() {
                                     <h5 className="card-title">{electronic.productName}</h5>
                                     <p className="card-text">{electronic.price}</p>
                                     <p className="card-text">{electronic.category}</p>
+                                    <p className="badge text-bg-success">Rating : {electronic.rating}/5</p>
                                     <div>
                                         <button type="button"
                                             className="btn btn-primary" onClick={() => addToCarts(electronic)}>Add to Cart

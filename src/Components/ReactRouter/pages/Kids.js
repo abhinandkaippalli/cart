@@ -43,6 +43,7 @@ function Kids() {
                                     <h5 className="card-title">{kid.productName}</h5>
                                     <p className="card-text">{kid.price}</p>
                                     <p className="card-text">{kid.category}</p>
+                                    <p className="badge text-bg-success">Rating : {kid.rating}/5</p>
                                     <div>
                                         <button type="button"
                                             className="btn btn-primary" onClick={() => addToCarts(kid)}>Add to Cart
