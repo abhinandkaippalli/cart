@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart } from '../../../features/cartSlice'
+import { addToCart, removeFromCart } from '../../../features/cartSlice'
 import list from '../../../Data'
+import { Link, useNavigate } from 'react-router-dom'
+
 
 function Sports() {
+
+    const navigate = useNavigate()
+
     const sports = list.filter(item => {
         return item.category === 'sports'
     })
@@ -20,37 +25,37 @@ function Sports() {
 
     const array = useSelector(state => state.cart.products)
     console.log(array);
+
     const dispatch = useDispatch()
+
+    const removeList = (sport) => {
+        dispatch(removeFromCart({ id: sport.id }))
+    }
 
     return (
         <div className='container mt-5'>
             <div className='border p-3'>
                 <p className="fs-2 fw-bolder">Sports</p>
                 <div className='row'>
-                    {sports.map(sport => (
-                        <div className='p-4 col-lg-3 col-md-4 col-sm-6 col-12' key={sport.id}>
+                    {sports.map((sport, index) => (
+                        <div className='p-4 col-lg-3 col-md-4 col-sm-6 col-12' key={sport.id} onClick={() => {navigate(`/select/${sport.id}`)}}>
                             <div className="card p-2" style={{ width: '100%' }}>
                                 <img src={'/images/' + sport.image} style={{ width: '100%', height: '200px' }} className="card-img-top" alt="..." />
                                 <div className="card-body">
                                     <h5 className="card-title">{sport.productName}</h5>
                                     <p className="card-text">{sport.price}</p>
                                     <p className="card-text">{sport.category}</p>
-                                    <div className="d-flex gap-2">
-                                        <select className="form-select " aria-label="Default select example" style={{ width: "65px" }}>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="5">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
+                                    <div>
                                         <button type="button"
                                             className="btn btn-primary" onClick={() => addToCarts(sport)}>Add to Cart
                                         </button>
                                     </div>
-                                    <div className="remove">
-                                        This item in your cart
-                                        <a href="#" className="ms-2">Remove</a>
-                                    </div>
+                                    {array.find(item => item.id === sport.id) !== undefined ?
+                                        <div className="remove">
+                                            This item in your cart
+                                            <a href="#"
+                                                className="ms-2" onClick={() => removeList(sport)}>Remove</a>
+                                        </div> : ' '}
                                 </div>
                             </div>
                         </div>

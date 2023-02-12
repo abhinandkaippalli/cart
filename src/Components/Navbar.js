@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { totalSum } from '../features/cartSlice';
 import { Link } from 'react-router-dom';
 import { ImCart } from 'react-icons/im';
 
@@ -8,6 +10,17 @@ function Navbar() {
     const toggleNavbar = () => {
         setExpanded(!isExpanded);
     };
+
+    const totalPrice = useSelector(state => state.cart.totalPrice)
+    const cartList = useSelector(state => state.cart.products)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(totalSum())
+    })
+
+    console.log(totalPrice);
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark">
@@ -32,16 +45,20 @@ function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <div className='text-right'>
+                <div className='text-right me-5'>
                     <Link to="cartlist" className="nav-link">
-                        <span>
-                            <div className='d-inline'>
+                        <span className='d-inline'>
+                            <div>
                                 <ImCart color='white' fontSize='25px' />
                             </div>
+                            <span className='d-block' style={{ color: 'white' }}>
+                                Rs.{totalPrice}
+                            </span>
+                            <span className='d-block' style={{ color: 'white' }}>
+                                {cartList.length} Items
+                            </span>
                         </span>
-                        <span className='d-block' style={{ color: 'white' }}>
-                            Cart
-                        </span>
+
                     </Link>
                 </div>
             </div>

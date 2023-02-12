@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart, removeFromCart } from '../../../features/cartSlice'
 import list from '../../../Data'
+import { Link } from 'react-router-dom'
 
 
 function Electronics() {
@@ -23,13 +24,6 @@ function Electronics() {
     const array = useSelector(state => state.cart.products)
     console.log(array);
 
-    const [isInCart, setIsInCart] = useState([])
-
-    useEffect(() => {
-        setIsInCart(array.map(cartItem => electronics.find(electronic => electronic.id === cartItem.id) !== undefined))
-    }, [array]);
-
-    console.log(isInCart);
 
     const dispatch = useDispatch()
 
@@ -45,19 +39,12 @@ function Electronics() {
                     {electronics.map(electronic => (
                         <div className='p-4 col-lg-3 col-md-4 col-sm-6 col-12' key={electronic.id}>
                             <div className="card p-2" style={{ width: '100%' }}>
-                                <img src={'/images/' + electronic.image} style={{ width: '100%', height: '200px' }} className="card-img-top" alt="..." />
+                                <Link to="/select"><img src={'/images/' + electronic.image} style={{ width: '100%', height: '200px' }} className="card-img-top" alt="..." /></Link>
                                 <div className="card-body">
                                     <h5 className="card-title">{electronic.productName}</h5>
                                     <p className="card-text">{electronic.price}</p>
                                     <p className="card-text">{electronic.category}</p>
-                                    <div className="d-flex gap-2">
-                                        <select className="form-select " aria-label="Default select example" style={{ width: "65px" }}>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="5">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
+                                    <div>
                                         <button type="button"
                                             className="btn btn-primary" onClick={() => addToCarts(electronic)}>Add to Cart
                                         </button>

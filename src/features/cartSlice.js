@@ -41,28 +41,34 @@ export const cartSlice = createSlice({
                 state.totalPrice -= exitstingItem.price;
             }
         },
-        increment: (state, action) => {
+        incrementQuantity: (state, action) => {
             state.products.forEach((item) => {
                 if (item.id === action.payload.id) {
                     item.quantity = item.quantity + 1;
+                    item.totalPrice += item.price;
                 }
             });
         },
-        decrement: (state, action) => {
+        decrementQuantity: (state, action) => {
             state.products.forEach((item) => {
                 if (item.id === action.payload.id) {
+                    if(item.quantity !== 0){
                     item.quantity = item.quantity - 1;
+                    item.totalPrice -= item.price;
+                }
                 }
             });
         },
-        sum: (state) => {
-            state.totalPrice = state.products
-                .map((item) => item.quantity * item.price)
-                .reduce((a, b) => a + b, 0);
-        },
+        totalSum: (state) => {
+            let total = 0;
+            state.products.forEach((item) => {
+                total += item.totalPrice;
+            });
+            state.totalPrice = total;
+        }
     },
 });
 
-export const { addToCart, removeFromCart, increment, decrement, totalPrice, sum } = cartSlice.actions
+export const { addToCart, removeFromCart, incrementQuantity, decrementQuantity, totalSum } = cartSlice.actions
 
 export default cartSlice.reducer

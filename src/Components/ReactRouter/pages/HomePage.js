@@ -5,13 +5,16 @@ import Sports from './Sports'
 import Kids from './Kids'
 
 function HomePage() {
+  
   return (
-    <div>
+    <div style={{
+      "overflowAnchor": "none"
+      }}>
         <Electronics />
         <Books />
         <Sports />
         <Kids />
-    </div>
+    </div >
   )
 }
 

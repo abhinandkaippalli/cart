@@ -6,7 +6,6 @@ import Kids from './pages/Kids'
 import Sports from './pages/Sports'
 import Cartlist from './pages/Cartlist'
 import ProductSelect from './pages/ProductSelect'
-import NotFound from './pages/NotFound'
 import { Route, Routes } from 'react-router-dom'
 
 function MainRouter() {
@@ -18,9 +17,8 @@ function MainRouter() {
             <Route path='books' element={<Books />} />
             <Route path='sports' element={<Sports />} />
             <Route path='kids' element={<Kids />} />
-            <Route path='select' element={<ProductSelect />} />
+            <Route path='/select/:pId' element={<ProductSelect />} />
             <Route path='cartlist' element={<Cartlist />} />
-            <Route path='*' element={<NotFound />} />
         </Routes>
     </div>
   )
