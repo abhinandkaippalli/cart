@@ -6,29 +6,39 @@ import list from '../../../Data'
 
 function ProductSelect() {
 
+    const [quantity, setQuantity] = useState(null)
+   
     const product = useSelector(state => state.cart.products)
-
+    //   console.log(product);
+   
     const { pId } = useParams()
-    console.log({ productId: pId });
-
-    const productDetails = list.find(item => {
-        return item.id === pId
-    })
-
-
+   
+    const productDetails = list.find(item => item.id === pId)
+   
     const dispatch = useDispatch()
+   
+    const foundItem = product.find(item => item.id === pId)
 
-    const addToCarts = (productDetails) => {
-        dispatch(addToCart({
-            id: productDetails.id,
-            image: productDetails.image,
-            productName: productDetails.productName,
-            price: productDetails.price,
-            category: productDetails.category,
-        }))
+    useEffect(() => {
+        setQuantity(foundItem ? foundItem.quantity : null)
+    }, [foundItem])
+
+    console.log(quantity);
+
+    const addToCarts = productDetails => {
+        dispatch(
+            addToCart({
+                id: productDetails.id,
+                image: productDetails.image,
+                productName: productDetails.productName,
+                price: productDetails.price,
+                category: productDetails.category,
+                quantity: quantity
+            })
+        )
     }
 
-    const removeList = (productDetails) => {
+    const removeList = productDetails => {
         dispatch(removeFromCart({ id: productDetails.id }))
     }
 
@@ -49,7 +59,7 @@ function ProductSelect() {
                             </div>
                             <div className='d-flex gap-3 mt-3'>
                                 <div className="input-group flex-nowrap">
-                                    <input type="text" className="form-control" placeholder="Quantity" aria-label="Quantity" aria-describedby="addon-wrapping" />
+                                    <input type="text" className="form-control" placeholder="Quantity" value={quantity !== null ? quantity : '0'} onChange={e => setQuantity(e.target.value)} aria-label="Quantity" aria-describedby="addon-wrapping" />
                                 </div>
                                 <button className="btn btn-primary" type="submit" onClick={() => addToCarts(productDetails)}>Add to cart</button>
                             </div>

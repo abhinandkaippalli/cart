@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { incrementQuantity, decrementQuantity, removeFromCart, totalSum } from '../../../features/cartSlice'
 
 function Cartlist() {
+    
     const cartList = useSelector(state => state.cart.products)
-    console.log(cartList)
+    // console.log(cartList)
 
     const dispatch = useDispatch()
 
