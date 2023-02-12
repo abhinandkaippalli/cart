@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart, removeFromCart } from '../../../features/cartSlice'
 import list from '../../../Data'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Kids() {
+
+    const navigate = useNavigate()
 
     const kids = list.filter(item => {
         return item.category === 'kids'
@@ -20,38 +22,15 @@ function Kids() {
         }))
     }
 
-    const array = useSelector(state => state.cart.products)
-    console.log(array);
-
-    const [isInCart, setIsInCart] = useState([])
-
-    useEffect(() => {
-        setIsInCart(array.map(cartItem => kids.find(kid => kid.id === cartItem.id) !== undefined))
-    }, [array]);
-
-    console.log(isInCart);
+    const kidCart = useSelector(state => state.cart.products)
 
     const dispatch = useDispatch()
-
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-      const savedScrollPosition = window.scrollY;
-      return () => {
-        window.scrollTo(0, savedScrollPosition);
-      };
-    }, []);
 
     const removeList = (kid) => {
         dispatch(removeFromCart({ id: kid.id }))
     }
 
     return (
-
-        <div ref={containerRef} style={{
-            overflowAnchor: "none"
-          }}>
-
         <div className='container mt-5'>
             <div className='border p-3'>
                 <p className="fs-2 fw-bolder">Kids</p>
@@ -59,7 +38,7 @@ function Kids() {
                     {kids.map((kid) => (
                         <div className='p-4 col-lg-3 col-md-4 col-sm-6 col-12' key={kid.id}>
                             <div className="card p-2" style={{ width: '100%' }}>
-                                <Link to="/select"><img src={'/images/' + kid.image} style={{ width: '100%', height: '200px' }} className="card-img-top" alt="..." /></Link>
+                                <img src={'/images/' + kid.image} style={{ width: '100%', height: '100%' }} className="card-img-top" alt="..." onClick={() => { navigate(`/select/${kid.id}`) }} />
                                 <div className="card-body">
                                     <h5 className="card-title">{kid.productName}</h5>
                                     <p className="card-text">{kid.price}</p>
@@ -69,10 +48,15 @@ function Kids() {
                                             className="btn btn-primary" onClick={() => addToCarts(kid)}>Add to Cart
                                         </button>
                                     </div>
-                                    {array.find(item => item.id === kid.id) !== undefined ?
-                                        <div className="remove">
-                                            This item in your cart
-                                            <a href="#" className="ms-2" onClick={() => removeList(kid)}>Remove</a>
+                                    {kidCart.find(item => item.id === kid.id) !== undefined ?
+                                        <div className='text-danger'>
+                                            <div className="remove">
+                                                This item in your cart
+                                                <a href="#" className="ms-2" onClick={(e) => {
+                                                    e.preventDefault()
+                                                    removeList(kid)
+                                                }}>Remove</a>
+                                            </div>
                                         </div> : ' '}
                                 </div>
                             </div>
@@ -81,7 +65,6 @@ function Kids() {
                 </div>
             </div>
         </div>
-</div>
     )
 
 }

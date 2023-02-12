@@ -1,9 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart, removeFromCart } from '../../../features/cartSlice'
 import list from '../../../Data'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function Books() {
+
+    const navigate = useNavigate()
 
     const books = list.filter(item => {
         return item.category === 'books'
@@ -19,14 +21,11 @@ function Books() {
         }))
     }
 
-    const array = useSelector(state => state.cart.products)
-    console.log(array);
-
-
+    const bookCart = useSelector(state => state.cart.products)
 
     const dispatch = useDispatch()
 
-    const removeList = (book)  => {
+    const removeList = (book) => {
         dispatch(removeFromCart({ id: book.id }))
     }
 
@@ -37,8 +36,8 @@ function Books() {
                 <div className='row'>
                     {books.map((book) => (
                         <div className='p-4 col-lg-3 col-md-4 col-sm-6 col-12' key={book.id}>
-                            <div className="card p-2" style={{ width: '100%' }}>
-                                <Link to="/select" id="book"><img src={'/images/' + book.image} style={{ width: '100%', height: '200px' }} className="card-img-top" alt="..." /></Link>
+                            <div className="card p-2" style={{ width: '100%', height:'100%' }}>
+                                <img src={'/images/' + book.image} style={{ width: '100%', height: '200px' }} className="card-img-top" alt="..." onClick={() => { navigate(`/select/${book.id}`) }} />
                                 <div className="card-body">
                                     <h5 className="card-title">{book.productName}</h5>
                                     <p className="card-text">{book.price}</p>
@@ -48,13 +47,15 @@ function Books() {
                                             className="btn btn-primary" onClick={() => addToCarts(book)}>Add to Cart
                                         </button>
                                     </div>
-                                    {array.find(item => item.id === book.id) !== undefined ?
-                                        <div className="remove">
-                                            This item in your cart
-                                            <a href="#" className="ms-2" onClick={(e) => {
-                                                e.preventDefault()
-                                                removeList(book)
+                                    {bookCart.find(item => item.id === book.id) !== undefined ?
+                                        <div className='text-danger'>
+                                            <div className="remove">
+                                                This item in your cart
+                                                <a href="#" className="ms-2" onClick={(e) => {
+                                                    e.preventDefault()
+                                                    removeList(book)
                                                 }}>Remove</a>
+                                            </div>
                                         </div> : ' '}
                                 </div>
                             </div>
